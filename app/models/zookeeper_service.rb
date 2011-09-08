@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-class ZooKeeperService < ServiceObject
+class ZookeeperService < ServiceObject
   
   def initialize(thelogger)
     @bc_name = "zookeeper"

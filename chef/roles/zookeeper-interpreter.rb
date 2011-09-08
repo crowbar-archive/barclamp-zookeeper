@@ -18,7 +18,7 @@
 #
 
 name "zookeeper-interpreter"
-description "Hadoop ZooKeeper Interpreter Role"
+description "Hadoop Zookeeper Interpreter Role"
 run_list(
   "recipe[zookeeper::default]"
 )

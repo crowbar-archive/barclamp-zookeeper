@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-class ZooKeeperController < BarclampController
+class ZookeeperController < BarclampController
   def initialize
-    @service_object = ZooKeeperService.new logger
+    @service_object = ZookeeperService.new logger
   end
 end
 
