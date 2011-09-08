@@ -1,0 +1,86 @@
+{
+  "type": "map",
+  "required": true,
+  "mapping": {
+    "id": { "type": "str", "required": true, "pattern": "/^bc-zookeeper-|^bc-template-zookeeper$/" },
+    "description": { "type": "str", "required": true },
+    "attributes": {
+      "type": "map",
+      "required": true,
+      "mapping": {
+        "zookeeper": {
+          "type": "map",
+          "required": true,
+          "mapping": {
+            "debug":  { "type": "bool", "required": true},
+            "admin_ip_eval": { "type": "str", "required": true },
+            "admin_interface_eval": { "type": "str", "required": true },
+            "zookeeper_default_fileformat": { "type": "str", "required": true},
+            "zookeeper_exec_compress_intermediate": { "type": "str", "required": true},
+            "zookeeper_exec_compress_output": { "type": "str", "required": true},
+            "zookeeper_exec_scratchdir": { "type": "str", "required": true},
+            "zookeeper_exec_script_maxerrsize": { "type": "str", "required": true},
+            "zookeeper_join_emit_interval": { "type": "str", "required": true},
+            "zookeeper_map_aggr": { "type": "str", "required": true},
+            "zookeeper_metastore_connect_retries": { "type": "str", "required": true},
+            "zookeeper_metastore_local": { "type": "str", "required": true},
+            "zookeeper_metastore_metadb_dir": { "type": "str", "required": true},
+            "zookeeper_metastore_rawstore_impl": { "type": "str", "required": true},
+            "zookeeper_metastore_uris": { "type": "str", "required": true},
+            "zookeeper_metastore_warehouse_dir": { "type": "str", "required": true},
+            "javax_jdo_option_ConnectionDriverName": { "type": "str", "required": true},
+            "javax_jdo_option_ConnectionURL": { "type": "str", "required": true}
+          } 
+        }
+      }
+    },
+    "deployment": {
+      "type": "map",
+      "required": true,
+      "mapping": {
+        "zookeeper": {
+          "type": "map",
+          "required": true,
+          "mapping": {
+            "crowbar-revision": { "type": "int", "required": true },
+            "crowbar-committing": { "type": "bool" },
+            "crowbar-queued": { "type": "bool" },
+            "elements": {
+              "type": "map",
+              "required": true,
+              "mapping": {
+                = : {
+                  "type": "seq",
+                  "required": true,
+                  "sequence": [ { "type": "str" } ]
+                }
+              }
+            },
+            "element_order": {
+              "type": "seq",
+              "required": true,
+              "sequence": [ {
+                "type": "seq",
+                "sequence": [ { "type": "str" } ]
+              } ]
+            },
+            "config": {
+              "type": "map",
+              "required": true,
+              "mapping": {
+                "environment": { "type": "str", "required": true },
+                "mode": { "type": "str", "required": true },
+                "transitions": { "type": "bool", "required": true },
+                "transition_list": {
+                  "type": "seq",
+                  "required": true,
+                  "sequence": [ { "type": "str" } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
