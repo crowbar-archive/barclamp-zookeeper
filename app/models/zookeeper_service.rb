@@ -28,34 +28,25 @@ class ZookeeperService < ServiceObject
     @logger.debug("zookeeper create_proposal: entering")
     base = super
     
-    # Get the node list, exclude the admin node.
-    debug = true
-    edge_nodes = Array.new
+    # Get the node list.
     nodes = NodeObject.all
-    nodes.delete_if { |n| n.nil? or n.admin? }
-
-=begin    
-The code below doesn't work - can't use :node
-    # Configuration filter for our environment
-    env_filter = " AND environment:#{node[:zookeeper][:config][:environment]}"
+    nodes.delete_if { |n| n.nil? }
     
-    # Find all edge nodes and attach the zookeeper proposal to
-    # those nodes. You need to have a Hadoop base edgenode
-    # already or the proposal bind will fail.
-    search(:node, "roles:hadoop-edgenode#{env_filter}") do |edge|
-      if !edge[:fqdn].nil? && !edge[:fqdn].empty?
-        Chef::Log.info("zookeeper create_proposal: ADD EDGE_NODE [#{edge[:fqdn]}") if debug
-        edge_nodes << nedge[:fqdn] 
-      end
-    end
-=end
+    # Find all hadoop edge nodes.
+    edge_nodes = nodes.find_all { |n| n.role? "hadoop-edgenode" }
+    edge_fqdns = Array.new
+    edge_nodes.each { |x|
+      next if x.nil?
+      edge_fqdns << x[:fqdn] if !x[:fqdn].nil? && !x[:fqdn].empty? 
+    }
     
     # Check for errors or add the proposal elements
     base["deployment"]["zookeeper"]["elements"] = { } 
-    if edge_nodes.length == 0
-      Chef::Log.info("zookeeper create_proposal: No edge nodes found, proposal bind skipped")
+    if !edge_fqdns.nil? && edge_fqdns.length > 0 
+      # @logger.info("GOT EDGE " + edge_fqdns.to_s)
+      base["deployment"]["zookeeper"]["elements"]["zookeeper-interpreter"] = edge_fqdns 
     else
-      base["deployment"]["zookeeper"]["elements"]["zookeeper-interpreter"] = edge_nodes 
+      @logger.debug("zookeeper create_proposal: No edge nodes found, proposal bind failed")
     end
     
     # @logger.debug("zookeeper create_proposal: #{base.to_json}")
