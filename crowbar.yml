@@ -17,7 +17,7 @@
 
 barclamp:
   name: zookeeper
-  display:Hadoop Zookeeper
+  display: Hadoop Zookeeper
   version: 0
 
 crowbar:
