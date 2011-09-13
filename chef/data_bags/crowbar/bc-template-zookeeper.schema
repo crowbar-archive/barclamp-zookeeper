@@ -13,23 +13,16 @@
           "required": true,
           "mapping": {
             "debug":  { "type": "bool", "required": true},
-            "admin_ip_eval": { "type": "str", "required": true },
-            "admin_interface_eval": { "type": "str", "required": true },
-            "zookeeper_default_fileformat": { "type": "str", "required": true},
-            "zookeeper_exec_compress_intermediate": { "type": "str", "required": true},
-            "zookeeper_exec_compress_output": { "type": "str", "required": true},
-            "zookeeper_exec_scratchdir": { "type": "str", "required": true},
-            "zookeeper_exec_script_maxerrsize": { "type": "str", "required": true},
-            "zookeeper_join_emit_interval": { "type": "str", "required": true},
-            "zookeeper_map_aggr": { "type": "str", "required": true},
-            "zookeeper_metastore_connect_retries": { "type": "str", "required": true},
-            "zookeeper_metastore_local": { "type": "str", "required": true},
-            "zookeeper_metastore_metadb_dir": { "type": "str", "required": true},
-            "zookeeper_metastore_rawstore_impl": { "type": "str", "required": true},
-            "zookeeper_metastore_uris": { "type": "str", "required": true},
-            "zookeeper_metastore_warehouse_dir": { "type": "str", "required": true},
-            "javax_jdo_option_ConnectionDriverName": { "type": "str", "required": true},
-            "javax_jdo_option_ConnectionURL": { "type": "str", "required": true}
+            "cluster_name": { "type": "str", "required": true},
+            "tick_time": { "type": "str", "required": true},
+            "init_limit": { "type": "str", "required": true},
+            "sync_limit": { "type": "str", "required": true},
+            "client_port": { "type": "str", "required": true},
+            "peer_port": { "type": "str", "required": true},
+            "leader_port": { "type": "str", "required": true},
+            "data_dir": { "type": "str", "required": true},
+            "jvm_flags": { "type": "str", "required": true},
+            "data_log_dir": { "type": "str", "required": false}            
           } 
         }
       }

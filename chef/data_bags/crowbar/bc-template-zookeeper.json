@@ -4,23 +4,16 @@
   "attributes": {
     "zookeeper": {
       "debug": true,
-	  "admin_ip_eval": "Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, \"admin\").address",
-      "admin_interface_eval": "Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, \"admin\").interface",
-      "zookeeper_default_fileformat": "TextFile",
-      "zookeeper_exec_compress_intermediate": "false",
-      "zookeeper_exec_compress_output": "false",
-      "zookeeper_exec_scratchdir": "/tmp/zookeeper-${user.name}",
-      "zookeeper_exec_script_maxerrsize": "100000",
-      "zookeeper_join_emit_interval": "1000",
-      "zookeeper_map_aggr": "false",
-      "zookeeper_metastore_connect_retries": "5",
-      "zookeeper_metastore_local": "true",
-      "zookeeper_metastore_metadb_dir": "file:///var/metastore/metadb/",
-      "zookeeper_metastore_rawstore_impl": "org.apache.zookeeper.zookeeper.metastore.ObjectStore",
-      "zookeeper_metastore_uris": "file:///var/metastore/metadb/",
-      "zookeeper_metastore_warehouse_dir": "/user/zookeeper/warehouse",
-      "javax_jdo_option_ConnectionDriverName": "org.apache.derby.jdbc.EmbeddedDriver",
-      "javax_jdo_option_ConnectionURL": "jdbc:derby:;databaseName=metastore_db;create=true"
+      "cluster_name": "default",
+      "tick_time": "2000",
+      "init_limit": "10",
+      "sync_limit": "5",
+      "client_port": "2181",
+      "peer_port": "2888",
+      "leader_port": "3888",
+      "data_dir": "/var/zookeeper",
+      "jvm_flags": "-Dzookeeper.log.threshold=INFO -Xmx4G",
+      "data_log_dir": ""
     }
   },
   "deployment": {
@@ -29,7 +22,7 @@
       "elements": {},
       "element_order": [
         [
-         "zookeeper-interpreter"
+         "zookeeper-server"
         ]
       ],
       "config": {

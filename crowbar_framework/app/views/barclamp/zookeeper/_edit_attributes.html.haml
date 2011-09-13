@@ -6,62 +6,41 @@
   %div.container
 
     %p
-      %label{ :for => :zookeeper_default_fileformat }= t('.zookeeper_default_fileformat')
-      %input#zookeeper_default_fileformat{:type => "text", :name => "zookeeper_default_fileformat", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_default_fileformat"], :onchange => "update_value('zookeeper_default_fileformat', 'zookeeper_default_fileformat', 'string')"}
+      %label{ :for => :cluster_name }= t('.cluster_name')
+      %input#cluster_name{:type => "text", :name => "cluster_name", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["cluster_name"], :onchange => "update_value('cluster_name', 'cluster_name', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_exec_compress_intermediate }= t('.zookeeper_exec_compress_intermediate')
-      = select_tag :zookeeper_exec_compress_intermediate, options_for_select([['true','true'], ['false', 'false']], "false"), :onchange => "update_value('zookeeper_exec_compress_intermediate', 'zookeeper_exec_compress_intermediate', 'boolean')"
+      %label{ :for => :tick_time }= t('.tick_time')
+      %input#tick_time{:type => "text", :name => "tick_time", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["tick_time"], :onchange => "update_value('tick_time', 'tick_time', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_exec_compress_output }= t('.zookeeper_exec_compress_output')
-      = select_tag :zookeeper_exec_compress_output, options_for_select([['true','true'], ['false', 'false']], "false"), :onchange => "update_value('zookeeper_exec_compress_output', 'zookeeper_exec_compress_output', 'boolean')"
+      %label{ :for => :init_limit }= t('.init_limit')
+      %input#init_limit{:type => "text", :name => "init_limit", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["init_limit"], :onchange => "update_value('init_limit', 'init_limit', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_exec_scratchdir }= t('.zookeeper_exec_scratchdir')
-      %input#zookeeper_exec_scratchdir{:type => "text", :name => "zookeeper_exec_scratchdir", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_exec_scratchdir"], :onchange => "update_value('zookeeper_exec_scratchdir', 'zookeeper_exec_scratchdir', 'string')"}
+      %label{ :for => :sync_limit }= t('.sync_limit')
+      %input#sync_limit{:type => "text", :name => "sync_limit", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["sync_limit"], :onchange => "update_value('sync_limit', 'sync_limit', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_exec_script_maxerrsize }= t('.zookeeper_exec_script_maxerrsize')
-      %input#zookeeper_exec_script_maxerrsize{:type => "text", :name => "zookeeper_exec_script_maxerrsize", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_exec_script_maxerrsize"], :onchange => "update_value('zookeeper_exec_script_maxerrsize', 'zookeeper_exec_script_maxerrsize', 'string')"}
+      %label{ :for => :client_port }= t('.client_port')
+      %input#client_port{:type => "text", :name => "client_port", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["client_port"], :onchange => "update_value('client_port', 'client_port', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_join_emit_interval }= t('.zookeeper_join_emit_interval')
-      %input#zookeeper_join_emit_interval{:type => "text", :name => "zookeeper_join_emit_interval", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_join_emit_interval"], :onchange => "update_value('zookeeper_join_emit_interval', 'zookeeper_join_emit_interval', 'string')"}
+      %label{ :for => :peer_port }= t('.peer_port')
+      %input#peer_port{:type => "text", :name => "peer_port", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["peer_port"], :onchange => "update_value('peer_port', 'peer_port', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_map_aggr }= t('.zookeeper_map_aggr')
-      = select_tag :zookeeper_map_aggr, options_for_select([['true','true'], ['false', 'false']], "false"), :onchange => "update_value('zookeeper_map_aggr', 'zookeeper_map_aggr', 'boolean')"
+      %label{ :for => :leader_port }= t('.leader_port')
+      %input#leader_port{:type => "text", :name => "leader_port", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["leader_port"], :onchange => "update_value('leader_port', 'leader_port', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_metastore_connect_retries }= t('.zookeeper_metastore_connect_retries')
-      %input#zookeeper_metastore_connect_retries{:type => "text", :name => "zookeeper_metastore_connect_retries", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_metastore_connect_retries"], :onchange => "update_value('zookeeper_metastore_connect_retries', 'zookeeper_metastore_connect_retries', 'string')"}
+      %label{ :for => :data_dir }= t('.data_dir')
+      %input#data_dir{:type => "text", :name => "data_dir", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["data_dir"], :onchange => "update_value('data_dir', 'data_dir', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_metastore_local }= t('.zookeeper_metastore_local')
-      = select_tag :zookeeper_metastore_local, options_for_select([['true','true'], ['false', 'false']], "true"), :onchange => "update_value('zookeeper_metastore_local', 'zookeeper_metastore_local', 'boolean')"
+      %label{ :for => :jvm_flags }= t('.jvm_flags')
+      %input#jvm_flags{:type => "text", :name => "jvm_flags", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["jvm_flags"], :onchange => "update_value('jvm_flags', 'jvm_flags', 'string')"}
 
     %p
-      %label{ :for => :zookeeper_metastore_metadb_dir }= t('.zookeeper_metastore_metadb_dir')
-      %input#zookeeper_metastore_metadb_dir{:type => "text", :name => "zookeeper_metastore_metadb_dir", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_metastore_metadb_dir"], :onchange => "update_value('zookeeper_metastore_metadb_dir', 'zookeeper_metastore_metadb_dir', 'string')"}
-
-    %p
-      %label{ :for => :zookeeper_metastore_rawstore_impl }= t('.zookeeper_metastore_rawstore_impl')
-      %input#zookeeper_metastore_rawstore_impl{:type => "text", :name => "zookeeper_metastore_rawstore_impl", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_metastore_rawstore_impl"], :onchange => "update_value('zookeeper_metastore_rawstore_impl', 'zookeeper_metastore_rawstore_impl', 'string')"}
-
-    %p
-      %label{ :for => :zookeeper_metastore_uris }= t('.zookeeper_metastore_uris')
-      %input#zookeeper_metastore_uris{:type => "text", :name => "zookeeper_metastore_uris", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_metastore_uris"], :onchange => "update_value('zookeeper_metastore_uris', 'zookeeper_metastore_uris', 'string')"}
-
-    %p
-      %label{ :for => :zookeeper_metastore_warehouse_dir }= t('.zookeeper_metastore_warehouse_dir')
-      %input#zookeeper_metastore_warehouse_dir{:type => "text", :name => "zookeeper_metastore_warehouse_dir", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["zookeeper_metastore_warehouse_dir"], :onchange => "update_value('zookeeper_metastore_warehouse_dir', 'zookeeper_metastore_warehouse_dir', 'string')"}
-
-    %p
-      %label{ :for => :javax_jdo_option_ConnectionDriverName }= t('.javax_jdo_option_ConnectionDriverName')
-      %input#javax_jdo_option_ConnectionDriverName{:type => "text", :name => "javax_jdo_option_ConnectionDriverName", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["javax_jdo_option_ConnectionDriverName"], :onchange => "update_value('javax_jdo_option_ConnectionDriverName', 'javax_jdo_option_ConnectionDriverName', 'string')"}
-
-    %p
-      %label{ :for => :javax_jdo_option_ConnectionURL }= t('.javax_jdo_option_ConnectionURL')
-      %input#javax_jdo_option_ConnectionURL{:type => "text", :name => "javax_jdo_option_ConnectionURL", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["javax_jdo_option_ConnectionURL"], :onchange => "update_value('javax_jdo_option_ConnectionURL', 'javax_jdo_option_ConnectionURL', 'string')"}
-  
+      %label{ :for => :data_log_dir }= t('.data_log_dir')
+      %input#data_log_dir{:type => "text", :name => "data_log_dir", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["data_log_dir"], :onchange => "update_value('data_log_dir', 'data_log_dir', 'string')"}

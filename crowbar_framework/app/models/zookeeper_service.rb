@@ -44,7 +44,7 @@ class ZookeeperService < ServiceObject
     base["deployment"]["zookeeper"]["elements"] = { } 
     if !edge_fqdns.nil? && edge_fqdns.length > 0 
       # @logger.info("GOT EDGE " + edge_fqdns.to_s)
-      base["deployment"]["zookeeper"]["elements"]["zookeeper-interpreter"] = edge_fqdns 
+      base["deployment"]["zookeeper"]["elements"]["zookeeper-server"] = edge_fqdns 
     else
       @logger.debug("zookeeper create_proposal: No edge nodes found, proposal bind failed")
     end

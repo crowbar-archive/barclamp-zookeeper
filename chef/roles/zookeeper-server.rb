@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-name "zookeeper-interpreter"
-description "Hadoop Zookeeper Interpreter Role"
+name "zookeeper-server"
+description "Hadoop Zookeeper Server Role"
 run_list(
   "recipe[zookeeper::default]"
 )

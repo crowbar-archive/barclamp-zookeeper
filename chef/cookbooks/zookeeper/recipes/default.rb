@@ -31,6 +31,63 @@ package "hadoop-zookeeper" do
   action :install
 end
 
+# Install the zookeeper server package.
+package "hadoop-zookeeper-server" do
+  action :install
+end
+
+# Define the server service.
+service "hadoop-zookeeper-server" do
+  supports :status => true, :start => true, :stop => true, :restart => true
+end
+
+=begin
+# Configure log4j. 
+template "/etc/zookeeper/log4j.properties" do
+  mode 0644
+  source "log4j.properties.erb"
+  notifies :restart, resources(:service => "hadoop-zookeeper-server")
+end
+=end
+
+# Find the zookeeper servers. 
+servers = []
+search(:node, "roles:hadoop-edgenode#{env_filter}") do |n|
+  ipaddress = BarclampLibrary::Barclamp::Inventory.get_network_by_type(n,"admin").address
+  obj = n.clone
+  obj[:ipaddress] = ipaddress
+  Chef::Log.info("ZOOKEEPER SERVER [#{obj[:ipaddress]}") if debug
+  servers << obj 
+end
+servers.sort! { |a, b| a.name <=> b.name }
+node[:zookeeper][:servers] = servers
+node.save
+
+# Enumerate the server listing.
+myip = BarclampLibrary::Barclamp::Inventory.get_network_by_type(node,"admin").address
+Chef::Log.info("MY IP [#{myip}") if debug
+myid = servers.collect { |n| n[:ipaddress] }.index(myip)
+Chef::Log.info("MY ID [#{myid}") if debug
+template "#{node[:zookeeper][:data_dir]}/myid" do
+  source "myid.erb"
+  variables(:myid => myid)
+end
+
+# Write the zookeeper configuration file.
+template "/etc/zookeeper/zoo.cfg" do
+  source "zoo.cfg.erb"
+  mode 0644
+  variables(:servers => servers)
+  notifies :restart, resources(:service => "hadoop-zookeeper-server")
+end
+
+# Start the zookeeper server.
+service "hadoop-zookeeper-server" do
+  action [ :enable, :start ]
+  running true
+  supports :status => true, :start => true, :stop => true, :restart => true
+end
+
 #######################################################################
 # End of recipe transactions
 #######################################################################
