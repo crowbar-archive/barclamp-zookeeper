@@ -19,6 +19,8 @@ barclamp:
   name: zookeeper
   display: Hadoop Zookeeper
   version: 0
+  requires:
+    - hadoop
 
 crowbar:
   layout: 1
