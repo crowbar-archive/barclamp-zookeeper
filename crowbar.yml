@@ -42,3 +42,8 @@ locale_additions:
           data_log_dir: Data Logging Directory
         edit_deployment: 
           deployment: Deployment
+
+rpms:
+  pkgs:
+    - hadoop-zookeeper
+    - hadoop-zookeeper-server
