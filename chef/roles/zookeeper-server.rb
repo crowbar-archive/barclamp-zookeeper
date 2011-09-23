@@ -1,6 +1,6 @@
 #
 # Cookbook: zookeeper
-# Role: zookeeper-interpreter.rb
+# Role: zookeeper-server.rb
 #
 # Copyright (c) 2011 Dell Inc.
 #

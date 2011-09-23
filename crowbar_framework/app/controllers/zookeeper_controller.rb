@@ -1,6 +1,6 @@
 #
 # Cookbook Name: zookeeper
-# Recipe: scoop_controller.rb
+# Recipe: zookeeper_controller.rb
 #
 # Copyright (c) 2011 Dell Inc.
 #
