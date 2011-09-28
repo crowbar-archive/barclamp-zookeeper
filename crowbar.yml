@@ -21,6 +21,8 @@ barclamp:
   version: 0
   requires:
     - hadoop
+  member:
+    - hadoop
 
 crowbar:
   layout: 1
