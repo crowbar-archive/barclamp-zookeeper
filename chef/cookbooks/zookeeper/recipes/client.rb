@@ -1,6 +1,6 @@
 #
 # Cookbook Name: zookeeper
-# Attributes: default.rb
+# Recipe: client.rb
 #
 # Copyright (c) 2011 Dell Inc.
 #
@@ -20,11 +20,28 @@
 #
 
 #######################################################################
-# Crowbar barclamp configuration parameters.
+# Begin recipe transactions
 #######################################################################
+debug = node[:zookeeper][:debug]
+Chef::Log.info("BEGIN zookeeper:client") if debug
 
-default[:zookeeper][:config] = {}
-default[:zookeeper][:config][:environment] = "zookeeper-config-default"
-default[:zookeeper][:debug] = true
+# Configuration filter for our environment.
+env_filter = " AND environment:#{node[:zookeeper][:config][:environment]}"
 
-default[:zookeeper][:servers] = []
+# Install the zookeeper base package.
+package "hadoop-zookeeper" do
+  action :install
+end
+
+# Update the zookeeper client startup script.
+template "/usr/bin/zookeeper-client" do
+  owner "root"
+  group "root"
+  mode "0755"
+  source "zookeeper-client.erb"
+end
+
+#######################################################################
+# End of recipe transactions
+#######################################################################
+Chef::Log.info("END zookeeper:client") if debug

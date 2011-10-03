@@ -16,11 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Author: Paul Webster
+#
 
 name "zookeeper-server"
 description "Hadoop Zookeeper Server Role"
 run_list(
-  "recipe[zookeeper::default]"
+  "recipe[zookeeper::default]",
+  "recipe[zookeeper::server]"
 )
 default_attributes()
 override_attributes()

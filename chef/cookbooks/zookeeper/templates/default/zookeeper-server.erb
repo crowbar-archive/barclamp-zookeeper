@@ -1,0 +1,27 @@
+#!/bin/sh
+
+#######################################################################
+# Generated and maintained by Crowbar for <%= @node[:fqdn] %>
+#######################################################################
+
+export ZOOPIDFILE=${ZOOPIDFILE:-/var/run/zookeeper/zookeeper-server.pid}
+export ZOOKEEPER_HOME=${ZOOKEEPER_CONF:-/usr/lib/zookeeper}
+export ZOOKEEPER_CONF=${ZOOKEEPER_CONF:-/etc/zookeeper}
+export ZOOCFGDIR=$ZOOKEEPER_CONF
+export CLASSPATH=$CLASSPATH:$ZOOKEEPER_CONF:$ZOOKEEPER_HOME/*:$ZOOKEEPER_HOME/lib/*
+
+<% if @node[:zookeeper][:data_log_dir] && !@node[:zookeeper][:data_log_dir].empty? %>
+export ZOO_LOG_DIR=<%= @node[:zookeeper][:data_log_dir] %>
+<% else %>
+export ZOO_LOG_DIR=/var/log/zookeeper
+<% end %>
+
+export ZOO_LOG4J_PROP=INFO,ROLLINGFILE
+
+<% if @node[:zookeeper][:jvm_flags] && !@node[:zookeeper][:jvm_flags].empty? %>
+export JVMFLAGS="<%= @node[:zookeeper][:jvm_flags] %>"
+<% else %>
+export JVMFLAGS="-Dzookeeper.log.threshold=INFO"
+<% end %>
+
+env CLASSPATH=$CLASSPATH /usr/lib/zookeeper/bin/zkServer.sh "$@"

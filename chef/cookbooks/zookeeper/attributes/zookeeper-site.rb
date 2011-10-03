@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Author: Paul Webster
+#
 
 #######################################################################
 # Site Specific ZOOKEEPER settings.
@@ -30,9 +32,18 @@ default[:zookeeper][:tick_time] = "2000"
 # The number of ticks that the initial synchronization phase can take.
 default[:zookeeper][:init_limit] = "10"
 
-# The number of ticks that can pass between sending a request and getting
-# an acknowledgement.
+# The number of ticks that can pass between sending a request and
+# getting an acknowledgement.
 default[:zookeeper][:sync_limit] = "5"
+
+# Directory where the Zookeeper snapshot is stored.
+default[:zookeeper][:data_dir] = "/var/zookeeper"
+
+# Directory where the data log is stored.
+default[:zookeeper][:data_log_dir] = "/var/log/zookeeper"
+
+# Increase the heapsize of the ZooKeeper-Server instance to 4GB.
+default[:zookeeper][:jvm_flags] = "-Dzookeeper.log.threshold=INFO -Xmx4G"
 
 # Port at which the clients will connect.
 default[:zookeeper][:client_port] = "2181"
@@ -42,13 +53,3 @@ default[:zookeeper][:peer_port] = "2888"
 
 # Server leader port.
 default[:zookeeper][:leader_port] = "3888"
-
-# Directory where the Zookeeper snapshot is stored.
-default[:zookeeper][:data_dir] = "/var/zookeeper"
-
-# Increase the heapsize of the ZooKeeper-Server instance to 4GB.
-default[:zookeeper][:jvm_flags] = "-Dzookeeper.log.threshold=INFO -Xmx4G"
-
-# Directory where the data log is stored.
-default[:zookeeper][:data_log_dir] = ""
-

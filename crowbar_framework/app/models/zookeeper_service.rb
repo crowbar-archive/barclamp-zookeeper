@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Author: Paul Webster
+#
 
 class ZookeeperService < ServiceObject
   
@@ -32,24 +34,30 @@ class ZookeeperService < ServiceObject
     nodes = NodeObject.all
     nodes.delete_if { |n| n.nil? }
     
-    # Find all hadoop edge nodes.
-    edge_nodes = nodes.find_all { |n| n.role? "hadoop-edgenode" }
-    edge_fqdns = Array.new
-    edge_nodes.each { |x|
+    # Find the slave nodes for the zookeeper servers.
+    # The number of slaves to use depends on the number of failed
+    # nodes to support. We follow the (2F+1) rule so we stop allocating
+    # at the first 5 slave nodes found.
+    slave_nodes = nodes.find_all { |n| n.role? "hadoop-slavenode" }
+    slave_fqdns = Array.new
+    node_cnt = 0
+    slave_nodes.each { |x|
       next if x.nil?
-      edge_fqdns << x[:fqdn] if !x[:fqdn].nil? && !x[:fqdn].empty? 
+      if !x[:fqdn].nil? && !x[:fqdn].empty? 
+        slave_fqdns << x[:fqdn]  
+        node_cnt = node_cnt +1
+        break if node_cnt >= 5
+      end
     }
     
-    # Check for errors or add the proposal elements
+    # Check for errors or add the proposal elements.
     base["deployment"]["zookeeper"]["elements"] = { } 
-    if !edge_fqdns.nil? && edge_fqdns.length > 0 
-      # @logger.info("GOT EDGE " + edge_fqdns.to_s)
-      base["deployment"]["zookeeper"]["elements"]["zookeeper-server"] = edge_fqdns 
+    if !slave_fqdns.nil? && slave_fqdns.length > 0 
+      base["deployment"]["zookeeper"]["elements"]["zookeeper-server"] = slave_fqdns 
     else
-      @logger.debug("zookeeper create_proposal: No edge nodes found, proposal bind failed")
+      @logger.debug("zookeeper create_proposal: No slave nodes found, proposal bind failed")
     end
     
-    # @logger.debug("zookeeper create_proposal: #{base.to_json}")
     @logger.debug("zookeeper create_proposal: exiting")
     base
   end

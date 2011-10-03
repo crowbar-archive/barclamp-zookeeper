@@ -1,0 +1,11 @@
+#!/bin/sh
+
+#######################################################################
+# Generated and maintained by Crowbar for <%= @node[:fqdn] %>
+#######################################################################
+
+export ZOOKEEPER_HOME=${ZOOKEEPER_CONF:-/usr/lib/zookeeper}
+export ZOOKEEPER_CONF=${ZOOKEEPER_CONF:-/etc/zookeeper}
+export ZOOCFGDIR=$ZOOKEEPER_CONF
+export CLASSPATH=$CLASSPATH:$ZOOKEEPER_CONF:$ZOOKEEPER_HOME/*:$ZOOKEEPER_HOME/lib/*
+env CLASSPATH=$CLASSPATH /usr/lib/zookeeper/bin/zkCli.sh "$@"
