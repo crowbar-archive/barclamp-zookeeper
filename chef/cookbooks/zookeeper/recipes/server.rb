@@ -57,7 +57,9 @@ search(:node, "roles:zookeeper-server AND zookeeper_cluster_name:#{node[:zookeep
     servers << rec
   end
 end
-if servers.size <= 0
+if servers.size > 0
+  servers.sort! { |a, b| a[:ipaddress] <=> b[:ipaddress] }
+else
   Chef::Log.warn("NO ZOOKEEPER SERVERS FOUND")
 end
 
