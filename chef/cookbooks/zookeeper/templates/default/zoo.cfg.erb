@@ -41,13 +41,12 @@ dataLogDir=<%= @node[:zookeeper][:data_log_dir] %>
 # Port at which the clients will connect.
 clientPort=<%= @node[:zookeeper][:client_port] %>
 
-<% if @servers.nil? || @servers.size == 0 -%>
-# No zookeeper servers configured.
-<% elsif @servers.size == 1 -%>
-  <% server = @servers.first -%>
-server=<%= server[:ipaddress] %>:<%= server[:zookeeper][:peer_port] %>:<%= server[:zookeeper][:leader_port] %>
-<% elsif @servers.size > 1 -%>
+<% if !@servers.nil? && @servers.size > 0 -%>
+# Zookeeper servers.
   <% @servers.each_with_index do |server, i| %>
-server.<%= i %>=<%= server[:ipaddress] %>:<%= server[:zookeeper][:peer_port] %>:<%= server[:zookeeper][:leader_port] %>
+server.<%= i + 1 %>=<%= server[:ipaddress] %>:<%= server[:peer_port] %>:<%= server[:leader_port] %> 
   <% end -%>
+<% else -%>
+# No zookeeper servers configured.
 <% end -%>
+ 

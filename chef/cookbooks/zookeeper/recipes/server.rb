@@ -25,7 +25,7 @@
 debug = node[:zookeeper][:debug]
 Chef::Log.info("BEGIN zookeeper:server") if debug
 
-# Configuration filter for our environment
+# Configuration filter for our environment.
 env_filter = " AND environment:#{node[:zookeeper][:config][:environment]}"
 
 # Install the zookeeper server package.
@@ -34,33 +34,43 @@ package "hadoop-zookeeper-server" do
 end
 
 # Define the zookeeper server service.
+# {start|stop|restart|force-reload|status|force-stop}
 service "hadoop-zookeeper-server" do
-  supports :status => true, :start => true, :stop => true, :restart => true
+  supports :start => true, :stop => true, :restart => true, :status => true
   action :enable
 end
 
-# Find the zookeeper servers in this cluster. 
+# Find the zookeeper servers.
 servers = Array.new
 search(:node, "roles:zookeeper-server AND zookeeper_cluster_name:#{node[:zookeeper][:cluster_name]}") do |n|
   ipaddress = BarclampLibrary::Barclamp::Inventory.get_network_by_type(n,"admin").address
-  obj = n.clone
-  obj[:ipaddress] = ipaddress
-  Chef::Log.info("FOUND ZOOKEEPER SERVER [#{obj[:ipaddress]}") if debug
-  servers << obj 
+  if ipaddress.nil? || ipaddress.empty?
+    Chef::Log.warn("ZOOKEEPER IP LOOKUP FAILED")
+  else    
+    rec = {
+    :ipaddress => ipaddress,
+    :peer_port => n[:zookeeper][:peer_port],
+    :leader_port => n[:zookeeper][:leader_port],
+    :fqdn => n[:fqdn]
+    } 
+    Chef::Log.info("ZOOKEEPER SERVER [" + rec[:ipaddress] + ", " + rec[:fqdn] + "]") if debug
+    servers << rec
+  end
 end
-if servers.size > 0
-  servers.sort! { |a, b| a.name <=> b.name }
-else 
+if servers.size <= 0
   Chef::Log.warn("NO ZOOKEEPER SERVERS FOUND")
 end
-node[:zookeeper][:servers] = servers
-node.save
 
-# Enumerate the server listing.
+# Find myid - the index into the zookeeper servers list array.
 myip = BarclampLibrary::Barclamp::Inventory.get_network_by_type(node,"admin").address
-Chef::Log.info("MY IP [#{myip}") if debug
-myid = servers.collect { |n| n[:ipaddress] }.index(myip)
-Chef::Log.info("MY ID [#{myid}") if debug
+if myip.nil? || myip.empty?
+  Chef::Log.warn("ZOOKEEPER MYIP LOOKUP FAILED")
+else    
+  Chef::Log.info("MY IP [#{myip}]") if debug
+  myid = servers.collect { |n| n[:ipaddress] }.index(myip)
+  myid = myid + 1 if !myid.nil? 
+  Chef::Log.info("MY ID [#{myid}]") if debug
+end
 
 # Update the zookeeper log4j configuration.
 template "/etc/zookeeper/log4j.properties" do
