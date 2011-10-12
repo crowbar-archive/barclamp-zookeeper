@@ -23,7 +23,7 @@
 # Begin recipe transactions
 #######################################################################
 debug = node[:zookeeper][:debug]
-Chef::Log.info("BEGIN zookeeper:server") if debug
+Chef::Log.info("ZOOKEEPER : BEGIN zookeeper:server") if debug
 
 # Configuration filter for our environment.
 env_filter = " AND environment:#{node[:zookeeper][:config][:environment]}"
@@ -45,7 +45,7 @@ servers = Array.new
 search(:node, "roles:zookeeper-server AND zookeeper_cluster_name:#{node[:zookeeper][:cluster_name]}") do |n|
   ipaddress = BarclampLibrary::Barclamp::Inventory.get_network_by_type(n,"admin").address
   if ipaddress.nil? || ipaddress.empty?
-    Chef::Log.warn("ZOOKEEPER IP LOOKUP FAILED")
+    Chef::Log.warn("ZOOKEEPER : SERVER IP LOOKUP FAILED")
   else    
     rec = {
     :ipaddress => ipaddress,
@@ -53,25 +53,36 @@ search(:node, "roles:zookeeper-server AND zookeeper_cluster_name:#{node[:zookeep
     :leader_port => n[:zookeeper][:leader_port],
     :fqdn => n[:fqdn]
     } 
-    Chef::Log.info("ZOOKEEPER SERVER [" + rec[:ipaddress] + ", " + rec[:fqdn] + "]") if debug
+    Chef::Log.info("ZOOKEEPER : FOUND SERVER [" + rec[:ipaddress] + ", " + rec[:fqdn] + "]") if debug
     servers << rec
   end
 end
 if servers.size > 0
   servers.sort! { |a, b| a[:ipaddress] <=> b[:ipaddress] }
 else
-  Chef::Log.warn("NO ZOOKEEPER SERVERS FOUND")
+  Chef::Log.warn("ZOOKEEPER : NO SERVERS FOUND")
 end
 
 # Find myid - the index into the zookeeper servers list array.
 myip = BarclampLibrary::Barclamp::Inventory.get_network_by_type(node,"admin").address
 if myip.nil? || myip.empty?
-  Chef::Log.warn("ZOOKEEPER MYIP LOOKUP FAILED")
+  Chef::Log.warn("ZOOKEEPER : MYIP LOOKUP FAILED")
 else    
-  Chef::Log.info("MY IP [#{myip}]") if debug
+  Chef::Log.info("ZOOKEEPER : MY IP [#{myip}]") if debug
   myid = servers.collect { |n| n[:ipaddress] }.index(myip)
   myid = myid + 1 if !myid.nil? 
-  Chef::Log.info("MY ID [#{myid}]") if debug
+  Chef::Log.info("ZOOKEEPER : MY ID [#{myid}]") if debug
+end
+
+# Create data_log_dir and set ownership/permissions (/var/log/zookeeper). 
+data_log_dir = node[:zookeeper][:data_log_dir]
+directory data_log_dir do
+  owner "zookeeper"
+  group "zookeeper"
+  mode "0755"
+  action :create
+  only_if { !data_log_dir.nil? && !data_log_dir.empty? }
+  notifies :restart, resources(:service => "hadoop-zookeeper-server")
 end
 
 # Update the zookeeper log4j configuration.
@@ -114,4 +125,4 @@ end
 #######################################################################
 # End of recipe transactions
 #######################################################################
-Chef::Log.info("END zookeeper:server") if debug
+Chef::Log.info("ZOOKEEPER : END zookeeper:server") if debug

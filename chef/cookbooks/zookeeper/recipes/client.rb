@@ -23,7 +23,7 @@
 # Begin recipe transactions
 #######################################################################
 debug = node[:zookeeper][:debug]
-Chef::Log.info("BEGIN zookeeper:client") if debug
+Chef::Log.info("ZOOKEEPER : BEGIN zookeeper:client") if debug
 
 # Configuration filter for our environment.
 env_filter = " AND environment:#{node[:zookeeper][:config][:environment]}"
@@ -44,4 +44,4 @@ end
 #######################################################################
 # End of recipe transactions
 #######################################################################
-Chef::Log.info("END zookeeper:client") if debug
+Chef::Log.info("ZOOKEEPER : END zookeeper:client") if debug
