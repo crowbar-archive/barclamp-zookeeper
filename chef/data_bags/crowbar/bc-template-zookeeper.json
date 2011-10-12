@@ -13,7 +13,7 @@
       "leader_port": "3888",
       "data_dir": "/var/zookeeper",
       "jvm_flags": "-Dzookeeper.log.threshold=INFO -Xmx4G",
-      "data_log_dir": ""
+      "data_log_dir": "/var/log/zookeeper"
     }
   },
   "deployment": {
