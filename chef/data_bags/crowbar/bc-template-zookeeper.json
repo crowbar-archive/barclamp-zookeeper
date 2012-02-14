@@ -19,6 +19,9 @@
   "deployment": {
     "zookeeper": {
       "crowbar-revision": 0,
+      "element_states": {
+        "zookeeper-server": [ "readying", "ready", "applying" ]
+      },
       "elements": {},
       "element_order": [
         [
