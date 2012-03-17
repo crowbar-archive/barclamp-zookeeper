@@ -50,12 +50,17 @@ locale_additions:
           deployment: Deployment
 
 rpms:
-  repos:
-    redhat-5.7:
+  redhat-5.7:
+    repos:
       - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/cdh/3/
-    centos-5.7:
+  centos-5.7:
+    repos:
       - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/cdh/3/
-    redhat-6.2:
+  redhat-6.2:
+    repos:
+      - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/6/x86_64/cdh/3
+  centos-6.2:
+    repos:
       - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/6/x86_64/cdh/3
   pkgs:
     - hadoop-zookeeper
