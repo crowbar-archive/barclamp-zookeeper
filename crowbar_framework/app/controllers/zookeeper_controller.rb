@@ -20,8 +20,13 @@
 #
 
 class ZookeeperController < BarclampController
-  def initialize
+  before_filter :set_service_object
+
+  def set_service_object
     @service_object = ZookeeperService.new logger
+    @service_object.bc_name = @bc_name
   end
+
+  private :set_service_object
 end
 
