@@ -2,7 +2,7 @@
 # Cookbook Name: zookeeper
 # Recipe: zookeeper_service.rb
 #
-# Copyright (c) 2011 Dell Inc.
+# Copyright (c) 2012 Dell Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,39 +21,32 @@
 
 class ZookeeperService < ServiceObject
   
-  def initialize(thelogger)
-    @bc_name = "zookeeper"
-    @logger = thelogger
-  end
-  
   def create_proposal
     @logger.debug("zookeeper create_proposal: entering")
     base = super
     
     # Get the node list.
-    nodes = NodeObject.all
+    nodes = Node.all
     nodes.delete_if { |n| n.nil? }
     
     # Find the slave nodes for the zookeeper servers.
     # The number of slaves to use depends on the number of failed
     # nodes to support. We follow the (2F+1) rule so we stop allocating
     # at the first 5 slave nodes found.
-    slave_nodes = nodes.find_all { |n| n.role? "hadoop-slavenode" }
+    slave_nodes = Barclamp.find_by_name("hadoop").active_proposals[0].active_config.get_nodes_by_role("hadoop-slavenode")
     slave_fqdns = Array.new
     node_cnt = 0
     slave_nodes.each { |x|
-      next if x.nil?
-      if !x[:fqdn].nil? && !x[:fqdn].empty? 
-        slave_fqdns << x[:fqdn]  
-        node_cnt = node_cnt +1
-        break if node_cnt >= 5
-      end
+      slave_fqdns << x
+      node_cnt = node_cnt +1
+      break if node_cnt >= 5
     }
     
     # Check for errors or add the proposal elements.
-    base["deployment"]["zookeeper"]["elements"] = { } 
     if !slave_fqdns.nil? && slave_fqdns.length > 0 
-      base["deployment"]["zookeeper"]["elements"]["zookeeper-server"] = slave_fqdns 
+      slave_fqdns.each do |node|
+        add_role_to_instance_and_node(node.name, base.name, "zookeeper-server")
+      end
     else
       @logger.debug("zookeeper create_proposal: No slave nodes found, proposal bind failed")
     end
