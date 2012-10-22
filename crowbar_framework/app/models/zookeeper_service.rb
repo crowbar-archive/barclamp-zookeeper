@@ -21,9 +21,9 @@
 
 class ZookeeperService < ServiceObject
   
-  def create_proposal
+  def create_proposal(name)
     @logger.debug("zookeeper create_proposal: entering")
-    base = super
+    base = super(name)
     
     # Get the node list.
     nodes = Node.all
