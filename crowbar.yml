@@ -23,6 +23,9 @@ barclamp:
     - hadoop
   member:
     - apachehadoop
+  os_support:
+    - redhat-6.2
+    - centos-6.2
 
 crowbar:
   layout: 1
@@ -31,18 +34,8 @@ crowbar:
   chef_order: 300
 
 rpms:
-  redhat-5.7:
-    repos:
-      - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/cdh/3/
-  centos-5.7:
-    repos:
-      - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/cdh/3/
-  redhat-6.2:
-    repos:
-      - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/6/x86_64/cdh/3
-  centos-6.2:
-    repos:
-      - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/6/x86_64/cdh/3
+  repos:
+    - bare cloudera-cdh3 10 http://archive.cloudera.com/redhat/6/x86_64/cdh/3
   pkgs:
     - hadoop-zookeeper
     - hadoop-zookeeper-server
