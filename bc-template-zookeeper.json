@@ -16,6 +16,9 @@
       "data_log_dir": "/var/log/zookeeper"
     }
   },
+    "roles": {
+        "zookeeper-server": { "jig": "chef" }
+    },
   "deployment": {
     "zookeeper": {
       "crowbar-revision": 0,

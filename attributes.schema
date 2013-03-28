@@ -1,0 +1,23 @@
+{
+    "type": "map",
+    "required": true,
+    "mapping": {
+        "zookeeper": {
+            "type": "map",
+            "required": true,
+            "mapping": {
+                "debug":  { "type": "bool", "required": true},
+                "cluster_name": { "type": "str", "required": true},
+                "tick_time": { "type": "str", "required": true},
+                "init_limit": { "type": "str", "required": true},
+                "sync_limit": { "type": "str", "required": true},
+                "client_port": { "type": "str", "required": true},
+                "peer_port": { "type": "str", "required": true},
+                "leader_port": { "type": "str", "required": true},
+                "data_dir": { "type": "str", "required": true},
+                "jvm_flags": { "type": "str", "required": true},
+                "data_log_dir": { "type": "str", "required": false}            
+            } 
+        }
+    }
+}
