@@ -1,0 +1,17 @@
+en:
+  barclamp:
+    zookeeper:
+      edit_attributes:
+        attributes: Attributes
+        cluster_name: Cluster Name
+        tick_time: Tick Time
+        init_limit: Initialization Limit
+        sync_limit: Synchronization Limit
+        client_port: Client Port
+        peer_port: Peer Port
+        leader_port: Leader Port
+        data_dir: Data Directory
+        jvm_flags: JVM Flags
+        data_log_dir: Data Logging Directory
+      edit_deployment:
+        deployment: Deployment
